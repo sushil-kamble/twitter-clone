@@ -1,18 +1,22 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <TweetInput />
+    <Tweets />
+    <Tweets />
+    <Tweets />
+    <Tweets />
+    <Tweets />
+    <Tweets />
+    <Tweets />
+    <Tweets />
+    <Tweets />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import TweetInput from "../components/TweetInput.vue";
+import Tweets from "../components/Tweets.vue";
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+  components: { TweetInput, Tweets },
+};
 </script>

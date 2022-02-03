@@ -1,32 +1,37 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div>
+    <Navbar />
+    <div class="flex min-page main-set">
+      <SidebarLeft class="w-1/6 md:w-1/4" />
+      <div class="flex-1">
+        <router-view class="min-page" />
+      </div>
+      <SidebarRight class="w-1/3 hidden lg:block" />
     </div>
-    <router-view/>
+    <Footer />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
+import SidebarLeft from "./components/SidebarLeft.vue";
+import SidebarRight from "./components/SidebarRight.vue";
 
-#nav {
-  padding: 30px;
-}
+export default {
+  name: "App",
+  components: {
+    Navbar,
+    Footer,
+    SidebarLeft,
+    SidebarRight,
+  },
+};
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+<style scoped>
+.min-page {
+  min-height: 75vh;
 }
 </style>
+

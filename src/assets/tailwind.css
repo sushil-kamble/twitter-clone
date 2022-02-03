@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-base font-heading font-bold md:text-xl;
+  }
+  h2 {
+    @apply font-heading text-xl md:text-2xl;
+  }
+  h3 {
+    @apply font-text text-base md:text-lg;
+  }
+  h4 {
+    @apply font-heading text-xs md:text-lg;
+  }
+  h5 {
+    @apply font-text text-xs md:text-base;
+  }
+}
+
+body {
+  @apply font-text;
+}
+
+.main-set {
+  @apply lg:container lg:mx-auto;
+}
+.transition-effect {
+  @apply transition duration-500 ease-in-out;
+}
+hr {
+  @apply border-secondary bg-secondary my-2;
+}
+
+/* Elements */
+.t-input {
+  @apply shadow
+    appearance-none
+    border
+    rounded
+    w-full
+    p-3
+    text-black
+    leading-tight
+    focus:outline-none;
+}
+
+.t-btn {
+  @apply font-bold py-2 px-4 focus:outline-none ease-linear
+  transition-all
+  duration-150 hover:bg-opacity-75;
+}
+/* Elements */
