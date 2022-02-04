@@ -2,7 +2,11 @@
   <div>
     <h1 class="pb-2 border-b-2">What's happening</h1>
     <div v-for="(event, id) in events" :key="id" class="mt-2">
-      <EventCard />
+      <EventCard
+        :status="event.status"
+        :title="event.title"
+        :tweets="event.tweets"
+      />
     </div>
   </div>
 </template>

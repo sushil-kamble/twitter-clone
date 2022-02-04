@@ -33,6 +33,9 @@ body {
 hr {
   @apply border-secondary bg-secondary my-2;
 }
+.router-link-exact-active {
+  @apply text-primary;
+}
 
 /* Elements */
 .t-input {

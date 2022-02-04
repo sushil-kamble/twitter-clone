@@ -8,13 +8,11 @@
       </div>
       <SidebarRight class="w-1/3 hidden lg:block" />
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
 import SidebarLeft from "./components/SidebarLeft.vue";
 import SidebarRight from "./components/SidebarRight.vue";
 
@@ -22,7 +20,6 @@ export default {
   name: "App",
   components: {
     Navbar,
-    Footer,
     SidebarLeft,
     SidebarRight,
   },

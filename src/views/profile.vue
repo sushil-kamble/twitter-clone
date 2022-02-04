@@ -5,12 +5,12 @@
         <img src="../assets/banner.png" alt="banner" />
       </div>
       <div class="profile">
-        <img src="../assets/avatar.jpg" alt="avatar" class="border-2" />
+        <img :src="getUser.avatar" alt="avatar" class="border-2" />
       </div>
     </div>
     <div class="px-4 pb-2 border-b-2">
-      <h2 class="font-bold">Sushil Kamble</h2>
-      <p>@sushil-kamble</p>
+      <h2 class="font-bold">{{ getUser.name }}</h2>
+      <p>{{ getUser.handle }}</p>
       <p class="text-sm text-gray-500">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque sed
         nostrum cumque officia sit, asperiores doloribus libero ex? Eum, fuga.
@@ -35,7 +35,10 @@
       </div>
       <p><i class="bx bx-calendar"></i> <span>Joined October 2019</span></p>
       <div class="mt-2 flex gap-4">
-        <p><span class="mr-1 font-bold">70</span><span>Following</span></p>
+        <p>
+          <span class="mr-1 font-bold">{{ getFollowing }}</span
+          ><span>Following</span>
+        </p>
         <p><span class="mr-1 font-bold">70</span><span>Followers</span></p>
       </div>
     </div>
@@ -45,9 +48,16 @@
 
 <script>
 import WhoToFollow from "@/components/WhoToFollow.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "Profile",
   components: { WhoToFollow },
+  computed: {
+    ...mapGetters(["getUser"]),
+    getFollowing() {
+      return this.getUser.following.length;
+    },
+  },
 };
 </script>
 

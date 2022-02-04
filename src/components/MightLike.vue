@@ -1,29 +1,29 @@
 <template>
   <div>
-    <h1 class="px-4 my-2">Who to Follow</h1>
-    <div v-for="user in filterUsers" :key="user.id">
+    <h1 class="pb-2 border-b-2">You Might Like</h1>
+    <div v-for="user in filterUsers" :key="user.id" class="mt-2">
       <FollowCard
         :id="user.id"
         :name="user.name"
         :avatar="user.avatar"
         :handle="user.handle"
-        :bio="user.bio"
         :following="user.following"
         @toggle="handleToggle"
+        small
       />
     </div>
   </div>
 </template>
 
 <script>
-import FollowCard from "./FollowCard.vue";
 import { mapGetters } from "vuex";
+import FollowCard from "./FollowCard.vue";
 export default {
   components: { FollowCard },
   computed: {
-    ...mapGetters(["getUser", "getUsers"]),
+    ...mapGetters(["getUsers"]),
     filterUsers() {
-      return this.getUsers.filter((user) => user.mainPage);
+      return this.getUsers.filter((user) => !user.mainPage && user.id !== 0);
     },
   },
   methods: {
