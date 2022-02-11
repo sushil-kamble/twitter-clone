@@ -7,7 +7,11 @@
     >
       <ul class="flex flex-col gap-3 flex-1">
         <router-link
-          :to="link.to"
+          :to="
+            link.to === '/profile'
+              ? { name: 'Profile', params: { id: getUser.handle } }
+              : link.to
+          "
           class="
             flex
             items-center
@@ -44,7 +48,9 @@
       </ul>
       <div
         class="py-2 cursor-pointer flex hover:bg-gray-100 px-4 rounded-r-2xl"
-        @click="$router.push({ name: 'Profile' })"
+        @click="
+          $router.push({ name: 'Profile', params: { id: getUser.handle } })
+        "
       >
         <img
           class="rounded-full h-12 w-12 mr-4"
@@ -53,7 +59,7 @@
         />
         <div class="hidden md:block">
           <p>{{ getUser.name }}</p>
-          <p>{{ getUser.handle }}</p>
+          <p>@{{ getUser.handle }}</p>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="pb-2 border-b-2">You Might Like</h1>
+    <h1 class="pb-2 border-b-2">Who to follow</h1>
     <div v-for="user in filterUsers" :key="user.id" class="mt-2">
       <FollowCard
         :id="user.id"
@@ -9,7 +9,6 @@
         :handle="user.handle"
         :following="user.following"
         @toggle="handleToggle"
-        small
       />
     </div>
   </div>

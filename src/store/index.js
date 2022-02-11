@@ -22,58 +22,59 @@ export default new Vuex.Store({
       {
         id: 1,
         name: "Dev Ed",
-        handle: "@johnDoe",
+        handle: "deved",
         avatar:
           "https://pbs.twimg.com/profile_images/1371172008457871360/vRZsFE07_400x400.jpg",
         bio: "Content Creator, Owner of https://developedbyed.com",
-        following: true,
-        mainPage: true
+        followers: 10500,
+        following: true
       },
       {
         id: 2,
         name: "Brad Traversy",
-        handle: "@traversymedia",
+        handle: "traversymedia",
         avatar:
           "https://pbs.twimg.com/profile_images/856983737426423809/6jebtwP-_400x400.jpg",
         bio: "Fullstack web developer and educator Freelance Mastery http://freelancemastery.dev",
-        following: false,
-        mainPage: true
+        followers: 9500,
+        following: false
       },
       {
         id: 3,
         name: "Evan You",
-        handle: "@youyuxi",
+        handle: "youyuxi",
         avatar:
           "https://pbs.twimg.com/profile_images/1206997998900850688/cTXTQiHm_400x400.jpg",
         bio: "Husband, father of two, independent open source developer. Creator / project lead of @vuejs, @vite_js and connoisseur of sushi. Chinese-only alt: @yuxiyou",
-        following: false,
-        mainPage: true
+        followers: 6700,
+        following: false
       },
       {
         id: 4,
         name: "Vue.js",
-        handle: "@vuejs",
+        handle: "vuejs",
         avatar:
           "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
         bio: "Progressive JavaScript framework for building modern web interfaces. Created by @youyuxi, maintained by http://vuejs.org/v2/guide/team.",
-        following: true,
-        mainPage: false
+        followers: 9900,
+        following: true
       },
       {
         id: 5,
         name: "Angular",
-        handle: "@angular",
+        handle: "angular",
         avatar:
           "https://pbs.twimg.com/profile_images/727278046646915072/cb8U-gL6_400x400.jpg",
         bio: "The modern web developer's platform.",
-        following: false,
-        mainPage: false
+        followers: 5500,
+        following: false
       }
     ],
     tweets: [
       {
         id: 1,
         user: 1,
+        handle: "deved",
         timestamp: "10h",
         content:
           "We tried Svelte, definitely going to build our Course platform using it this year.",
@@ -83,6 +84,7 @@ export default new Vuex.Store({
       {
         id: 2,
         user: 1,
+        handle: "deved",
         timestamp: "9h",
         content:
           "Really excited the start working on Javascript Animation Course! Release date around end of Nov.",
@@ -92,6 +94,7 @@ export default new Vuex.Store({
       {
         id: 3,
         user: 2,
+        handle: "traversymedia",
         timestamp: "8h",
         content:
           "Every language is good for specific things. They can not be ranked in a general sense. They are just tools, not sports teams.",
@@ -110,6 +113,7 @@ export default new Vuex.Store({
       {
         id: 5,
         user: 3,
+        handle: "youyuxi",
         timestamp: "5h",
         content:
           "Ok, just want to get this out so I can enjoy the holidays: A preview of the new Vue 3 docs that we've been working on: ",
@@ -119,6 +123,7 @@ export default new Vuex.Store({
       {
         id: 6,
         user: 3,
+        handle: "youyuxi",
         timestamp: "4h",
         content:
           "Just migrated the Vue issue helper (a 4-year old vue-cli + Vue 2 app) to Vite + vite-plugin-vue2 in less than 30 minutes Victory hand",
@@ -128,6 +133,7 @@ export default new Vuex.Store({
       {
         id: 7,
         user: 3,
+        handle: "youyuxi",
         timestamp: "3h",
         content:
           "The full build on Netlify (including vm spin-up + cache restore + deps install etc.) got 5x faster :D",
@@ -137,6 +143,7 @@ export default new Vuex.Store({
       {
         id: 8,
         user: 4,
+        handle: "vuejs",
         timestamp: "2h",
         content:
           "Due to the change of `latest` tag on npm, this will cause breakage to CDN links that do not specify a version range. Please make sure to add an explicit version to your production CDN links!",
@@ -146,6 +153,7 @@ export default new Vuex.Store({
       {
         id: 9,
         user: 4,
+        handle: "vuejs",
         timestamp: "2h",
         content:
           "What is one thing that you wish the Vue docs explained better?",
@@ -155,6 +163,7 @@ export default new Vuex.Store({
       {
         id: 10,
         user: 5,
+        handle: "angular",
         timestamp: "2h",
         content:
           "Sparkles Angular 13.2 is out! Sparkles Check out our in-depth articles about what's new in  @angular and the CLI!",
@@ -164,6 +173,7 @@ export default new Vuex.Store({
       {
         id: 11,
         user: 5,
+        handle: "angular",
         timestamp: "1h",
         content:
           "Angular v13.2 FormControls can now be reset to their initial value, giving developers more control of reactive forms when building applications. ",
@@ -174,9 +184,9 @@ export default new Vuex.Store({
   },
   getters: {
     getUser(state) {
-      const following = [
-        ...state.users.filter(user => user.following).map(x => x.id)
-      ];
+      const following = state.users
+        .filter(user => user.following)
+        .map(x => x.id);
       return { ...state.user, following };
     },
     getUsers(state) {
@@ -196,7 +206,7 @@ export default new Vuex.Store({
   mutations: {
     setUser(state, name) {
       state.user.name = name;
-      state.user.handle = "@" + name.replaceAll(" ", "").toLowerCase();
+      state.user.handle = name.replaceAll(" ", "").toLowerCase();
       state.user.isLoggedIn = true;
       localStorage.setItem(
         "user",
@@ -211,14 +221,15 @@ export default new Vuex.Store({
     },
     toggleFollow(state, id) {
       const index = id - 1;
-      if (state.users[index].following) {
-        state.users[index].following = false;
-        state.user.following = state.user.following.filter(
-          x => x !== state.users[index].id
-        );
+      const user = state.users[index];
+      if (user.following) {
+        user.following = false;
+        user.followers--;
+        state.user.following = state.user.following.filter(x => x !== user.id);
       } else {
-        state.users[index].following = true;
-        state.user.following.push(state.users[index].id);
+        user.following = true;
+        user.followers++;
+        state.user.following.push(user.id);
       }
     },
     toogleLike(state, id) {
@@ -236,6 +247,7 @@ export default new Vuex.Store({
       const tweet = {
         id: state.tweets.length + 1,
         user: state.user.id,
+        handle: state.user.handle,
         timestamp: "Now",
         content,
         likes: 0,

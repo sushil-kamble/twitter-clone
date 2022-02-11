@@ -8,13 +8,10 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-
-    component: () => import("../views/about.vue")
+    component: Home,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/login",
@@ -27,9 +24,12 @@ const routes = [
     component: () => import("../views/register.vue")
   },
   {
-    path: "/profile",
+    path: "/:id?",
     name: "Profile",
-    component: () => import("../views/profile.vue")
+    component: () => import("../views/profile.vue"),
+    meta: {
+      requiresAuth: true
+    }
   }
 ];
 
@@ -37,6 +37,17 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const user = localStorage.getItem("user");
+
+  if (requiresAuth && !user) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
 });
 
 export default router;

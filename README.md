@@ -8,15 +8,19 @@
 
 ### Register Page
 
-![Login](/sc/4.png)
+![Register Page](/sc/4.png)
 
 ### Feed Page
 
-![Login](/sc/2.png)
+![Feed Page](/sc/5.png)
 
-### Profile Page
+### My Profile
 
-![Login](/sc/3.png)
+![My Profile](/sc/2.png)
+
+### Other's Profile
+
+![Other's Profile](/sc/3.png)
 
 ## Project setup
 

@@ -1,11 +1,21 @@
 <template>
-  <div :class="`flex mb-2 justify-between ${small ? '' : 'px-4'}`">
-    <img :src="avatar" alt="Avatar" class="h-12 w-12 rounded-full mr-2" />
+  <div class="flex mb-2 justify-between">
+    <img
+      :src="avatar"
+      alt="Avatar"
+      class="h-12 w-12 rounded-full mr-2 cursor-pointer border-2"
+      @click="
+        $router.push({
+          name: 'Profile',
+          params: { id: handle },
+        })
+      "
+    />
     <div class="w-full">
       <div class="flex justify-between items-center">
-        <div :class="` ${small ? 'mr-4' : ''}`">
+        <div class="mr-4">
           <p class="">{{ name }}</p>
-          <p class="text-sm">{{ handle }}</p>
+          <p class="text-sm">@{{ handle }}</p>
         </div>
         <button
           class="t-btn rounded-2xl bg-primary text-white text-sm"
@@ -44,10 +54,6 @@ export default {
       type: String || null,
     },
     following: {
-      type: Boolean,
-      default: false,
-    },
-    small: {
       type: Boolean,
       default: false,
     },

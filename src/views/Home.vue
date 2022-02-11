@@ -23,13 +23,12 @@ export default {
             tweet.user === this.getUser.id
         )
         .map((x) => {
-          const { name, handle, avatar } = this.getUsers.find(
+          const { name, avatar } = this.getUsers.find(
             (user) => user.id === x.user
           );
           return {
             ...x,
             name,
-            handle,
             avatar,
           };
         })

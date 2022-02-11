@@ -1,11 +1,20 @@
 <template>
   <div class="flex border-b-2 p-4">
     <div class="mr-4 flex-none">
-      <img :src="tweet.avatar" class="h-12 w-12 rounded-full flex-none" />
+      <router-link :to="{ name: 'Profile', params: { id: tweet.handle } }">
+        <img
+          :src="tweet.avatar"
+          class="h-12 w-12 rounded-full flex-none border-2"
+        />
+      </router-link>
     </div>
     <div class="flex-1">
-      <span class="font-bold mr-2">{{ tweet.name }}</span>
-      <span class="mr-2">{{ tweet.handle }}</span> ·
+      <span
+        class="font-bold mr-2 cursor-pointer"
+        @click="$router.push({ name: 'Profile', params: { id: tweet.handle } })"
+        >{{ tweet.name }}
+      </span>
+      <span class="mr-2">@{{ tweet.handle }}</span> ·
       <span>{{ tweet.timestamp }}</span>
       <p>
         {{ tweet.content }}
