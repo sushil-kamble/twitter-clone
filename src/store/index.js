@@ -16,7 +16,7 @@ export default new Vuex.Store({
       bio: "Full Stack Developer | Passionate about Technology",
       following: [],
       followers: 0,
-      isLoggedIn: !!getItem
+      isLoggedIn: !!getItem,
     },
     users: [
       {
@@ -24,10 +24,10 @@ export default new Vuex.Store({
         name: "Dev Ed",
         handle: "deved",
         avatar:
-          "https://pbs.twimg.com/profile_images/1371172008457871360/vRZsFE07_400x400.jpg",
+          "https://yt3.ggpht.com/ytc/AKedOLSB-oR-xmvVSZXJ3gbK12uvv0AJUvajwxMie_R_uw=s176-c-k-c0x00ffffff-no-rj",
         bio: "Content Creator, Owner of https://developedbyed.com",
         followers: 10500,
-        following: true
+        following: true,
       },
       {
         id: 2,
@@ -37,7 +37,7 @@ export default new Vuex.Store({
           "https://pbs.twimg.com/profile_images/856983737426423809/6jebtwP-_400x400.jpg",
         bio: "Fullstack web developer and educator Freelance Mastery http://freelancemastery.dev",
         followers: 9500,
-        following: false
+        following: false,
       },
       {
         id: 3,
@@ -47,7 +47,7 @@ export default new Vuex.Store({
           "https://pbs.twimg.com/profile_images/1206997998900850688/cTXTQiHm_400x400.jpg",
         bio: "Husband, father of two, independent open source developer. Creator / project lead of @vuejs, @vite_js and connoisseur of sushi. Chinese-only alt: @yuxiyou",
         followers: 6700,
-        following: false
+        following: false,
       },
       {
         id: 4,
@@ -57,7 +57,7 @@ export default new Vuex.Store({
           "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
         bio: "Progressive JavaScript framework for building modern web interfaces. Created by @youyuxi, maintained by http://vuejs.org/v2/guide/team.",
         followers: 9900,
-        following: true
+        following: true,
       },
       {
         id: 5,
@@ -67,8 +67,8 @@ export default new Vuex.Store({
           "https://pbs.twimg.com/profile_images/727278046646915072/cb8U-gL6_400x400.jpg",
         bio: "The modern web developer's platform.",
         followers: 5500,
-        following: false
-      }
+        following: false,
+      },
     ],
     tweets: [
       {
@@ -79,7 +79,7 @@ export default new Vuex.Store({
         content:
           "We tried Svelte, definitely going to build our Course platform using it this year.",
         likes: 185,
-        liked: true
+        liked: true,
       },
       {
         id: 2,
@@ -89,7 +89,7 @@ export default new Vuex.Store({
         content:
           "Really excited the start working on Javascript Animation Course! Release date around end of Nov.",
         likes: 509,
-        liked: false
+        liked: false,
       },
       {
         id: 3,
@@ -99,7 +99,7 @@ export default new Vuex.Store({
         content:
           "Every language is good for specific things. They can not be ranked in a general sense. They are just tools, not sports teams.",
         likes: 1700,
-        liked: false
+        liked: false,
       },
       {
         id: 4,
@@ -108,7 +108,7 @@ export default new Vuex.Store({
         content:
           "Has anyone watched Archive81 on Netflix yet? I watched two episodes last night and really liked it. If you like horror/thriller/suspense, check it out.",
         likes: 534,
-        liked: false
+        liked: false,
       },
       {
         id: 5,
@@ -118,7 +118,7 @@ export default new Vuex.Store({
         content:
           "Ok, just want to get this out so I can enjoy the holidays: A preview of the new Vue 3 docs that we've been working on: ",
         likes: 1200,
-        liked: true
+        liked: true,
       },
       {
         id: 6,
@@ -128,7 +128,7 @@ export default new Vuex.Store({
         content:
           "Just migrated the Vue issue helper (a 4-year old vue-cli + Vue 2 app) to Vite + vite-plugin-vue2 in less than 30 minutes Victory hand",
         likes: 318,
-        liked: false
+        liked: false,
       },
       {
         id: 7,
@@ -138,7 +138,7 @@ export default new Vuex.Store({
         content:
           "The full build on Netlify (including vm spin-up + cache restore + deps install etc.) got 5x faster :D",
         likes: 101,
-        liked: false
+        liked: false,
       },
       {
         id: 8,
@@ -148,7 +148,7 @@ export default new Vuex.Store({
         content:
           "Due to the change of `latest` tag on npm, this will cause breakage to CDN links that do not specify a version range. Please make sure to add an explicit version to your production CDN links!",
         likes: 504,
-        liked: true
+        liked: true,
       },
       {
         id: 9,
@@ -158,7 +158,7 @@ export default new Vuex.Store({
         content:
           "What is one thing that you wish the Vue docs explained better?",
         likes: 415,
-        liked: true
+        liked: true,
       },
       {
         id: 10,
@@ -168,7 +168,7 @@ export default new Vuex.Store({
         content:
           "Sparkles Angular 13.2 is out! Sparkles Check out our in-depth articles about what's new in  @angular and the CLI!",
         likes: 87,
-        liked: false
+        liked: false,
       },
       {
         id: 11,
@@ -178,15 +178,15 @@ export default new Vuex.Store({
         content:
           "Angular v13.2 FormControls can now be reset to their initial value, giving developers more control of reactive forms when building applications. ",
         likes: 237,
-        liked: false
-      }
-    ]
+        liked: false,
+      },
+    ],
   },
   getters: {
     getUser(state) {
       const following = state.users
-        .filter(user => user.following)
-        .map(x => x.id);
+        .filter((user) => user.following)
+        .map((x) => x.id);
       return { ...state.user, following };
     },
     getUsers(state) {
@@ -194,14 +194,14 @@ export default new Vuex.Store({
         id: state.user.id,
         name: state.user.name,
         handle: state.user.handle,
-        avatar: state.user.avatar
+        avatar: state.user.avatar,
       };
 
       return [user, ...state.users];
     },
     getTweets(state) {
       return state.tweets;
-    }
+    },
   },
   mutations: {
     setUser(state, name) {
@@ -225,7 +225,9 @@ export default new Vuex.Store({
       if (user.following) {
         user.following = false;
         user.followers--;
-        state.user.following = state.user.following.filter(x => x !== user.id);
+        state.user.following = state.user.following.filter(
+          (x) => x !== user.id
+        );
       } else {
         user.following = true;
         user.followers++;
@@ -251,11 +253,11 @@ export default new Vuex.Store({
         timestamp: "Now",
         content,
         likes: 0,
-        liked: false
+        liked: false,
       };
       state.tweets.push(tweet);
-    }
+    },
   },
   actions: {},
-  modules: {}
+  modules: {},
 });

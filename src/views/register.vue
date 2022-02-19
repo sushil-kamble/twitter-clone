@@ -11,7 +11,7 @@
           Name
         </label>
         <input
-          class="t-input"
+          class="t-input block w-full"
           type="text"
           id="name"
           placeholder="Name"
@@ -27,7 +27,7 @@
           Password
         </label>
         <input
-          class="t-input"
+          class="t-input block w-full"
           type="password"
           id="password"
           placeholder="Password"
@@ -43,7 +43,7 @@
           Confirm Password
         </label>
         <input
-          class="t-input"
+          class="t-input block w-full"
           type="password"
           id="confirmPassword"
           placeholder="Confirm Password"
