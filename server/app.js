@@ -13,15 +13,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Body parser
 app.use(morgan("dev")); // Logger
 
-// api auth routes
+// User routes
 app.use("/user", userRoutes);
 
-// blog routes
+// Tweet routes
 app.use("/tweet", tweetRoutes);
 
-// 404 page
+// 404
 app.use((req, res) => {
-  res.status(404).render("404", { title: "404" });
+  res.status(404).send("Page Not Found");
 });
 
 app.listen(3000, () => {
