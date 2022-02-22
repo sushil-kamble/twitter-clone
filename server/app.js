@@ -1,8 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
+
+// Set up Global configuration access
+require("dotenv").config();
+
 const dbSetup = require("./db/dbSetup");
 const userRoutes = require("./routes/user");
 const tweetRoutes = require("./routes/tweet");
+const followRoutes = require("./routes/follow");
 
 const app = express();
 
@@ -18,6 +23,9 @@ app.use("/user", userRoutes);
 
 // Tweet routes
 app.use("/tweet", tweetRoutes);
+
+// Follow routes
+app.use("/follow", followRoutes);
 
 // 404
 app.use((req, res) => {

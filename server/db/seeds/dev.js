@@ -4,6 +4,7 @@
  */
 exports.seed = async function (knex) {
   await knex.raw('TRUNCATE TABLE "tweet" CASCADE');
+  await knex.raw('TRUNCATE TABLE "follow" CASCADE');
   await knex.raw('TRUNCATE TABLE "user" CASCADE');
 
   await knex("user").insert([
@@ -25,6 +26,13 @@ exports.seed = async function (knex) {
     },
   ]);
 
+  await knex("follow").insert([
+    {
+      from: 1,
+      to: 2,
+    },
+  ]);
+
   await knex("tweet").insert([
     {
       content: "This tweet is awesome",
@@ -34,6 +42,21 @@ exports.seed = async function (knex) {
       content: "This tweet is awesome 2",
       userId: 2,
       likes: 50,
+    },
+  ]);
+
+  await knex("tweet_likes").insert([
+    {
+      userId: 1,
+      tweetId: 2,
+    },
+    {
+      userId: 1,
+      tweetId: 1,
+    },
+    {
+      userId: 2,
+      tweetId: 1,
     },
   ]);
 };

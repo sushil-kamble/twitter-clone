@@ -11,17 +11,25 @@ exports.up = function (knex) {
       table.string("password").notNullable();
       table.string("avatar");
       table.text("bio");
-      table.boolean("followed").defaultTo(false);
-      table.integer("followers").defaultTo(0);
-      table.integer("following").defaultTo(0);
+      table.timestamps(true, true);
+    })
+    .createTable("follow", (table) => {
+      table.increments().primary();
+      table.integer("from").references("id").inTable("user").notNullable();
+      table.integer("to").references("id").inTable("user").notNullable();
       table.timestamps(true, true);
     })
     .createTable("tweet", (table) => {
       table.increments().primary();
       table.text("content").notNullable();
       table.integer("likes").defaultTo(0);
-      table.boolean("liked").defaultTo(false);
       table.integer("userId").references("id").inTable("user").notNullable();
+      table.timestamps(true, true);
+    })
+    .createTable("tweet_likes", (table) => {
+      table.increments().primary();
+      table.integer("userId").references("id").inTable("user").notNullable();
+      table.integer("tweetId").references("id").inTable("tweet").notNullable();
       table.timestamps(true, true);
     });
 };
@@ -31,5 +39,9 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("tweet").dropTableIfExists("user");
+  return knex.schema
+    .dropTableIfExists("tweet_likes")
+    .dropTableIfExists("tweet")
+    .dropTableIfExists("follow")
+    .dropTableIfExists("user");
 };
