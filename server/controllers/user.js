@@ -1,4 +1,5 @@
 const User = require("../db/models/user");
+// const Follow = require("../db/models/follow");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Tweet = require("../db/models/tweet");
@@ -55,6 +56,8 @@ const register = async (req, res) => {
     });
     // save user token
     user.token = token;
+    // delete password from user
+    delete user.password;
     // return new user
     return res.status(201).json(user);
   } catch (err) {
@@ -63,11 +66,49 @@ const register = async (req, res) => {
   }
 };
 
-const getUserProfileDataById = async (req, res) => {
+const getCurrenttUserMetaData = async (req, res) => {
   try {
-    const { id } = req.params;
+    const currentUser = res.locals.user;
     const user = await User.query()
-      .findById(id)
+      .findById(currentUser.uid)
+      .select("id", "handle", "avatar", "bio");
+    return res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err?.name });
+  }
+};
+
+const getAllUser = async (req, res) => {
+  const currentUser = res.locals.user;
+  const data = await User.query()
+    .select("id", "handle", "avatar", "bio")
+    .withGraphFetched("followers")
+    .whereNot("id", currentUser.uid);
+  return res.status(200).json(data);
+  // try {
+  //   let users = await User.query().select("id", "handle", "avatar");
+  //   const userFollowing = await Follow.query()
+  //     .where("from", currentUser.uid)
+  //     .select("to");
+  //   const followArray = userFollowing.map((follow) => follow.to);
+  //   users.map((user) => {
+  //     return followArray.includes(user.id)
+  //       ? (user.isFollowing = true)
+  //       : (user.isFollowing = false);
+  //   });
+  //   return res.status(200).json(users);
+  // } catch (err) {
+  //   console.log(err);
+  //   return res.status(500).json({ message: err?.name });
+  // }
+};
+
+const getUserProfileDataByHandle = async (req, res) => {
+  try {
+    const { handle } = req.params;
+    const user = await User.query()
+      .findOne({ handle })
       .select("id", "handle", "avatar", "bio");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -96,6 +137,8 @@ const getTweetsByUserId = async (req, res) => {
 module.exports = {
   login,
   register,
-  getUserProfileDataById,
+  getCurrenttUserMetaData,
+  getAllUser,
+  getUserProfileDataByHandle,
   getTweetsByUserId,
 };

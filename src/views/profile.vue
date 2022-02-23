@@ -1,44 +1,28 @@
 <template>
   <div>
-    <div v-if="getCurrentUser">
+    <div v-if="profileData">
       <div class="mb-24">
         <div class="cover">
           <img src="../assets/banner.png" alt="banner" id="banner-img" />
           <img
-            :src="getCurrentUser.avatar"
+            :src="profileData.avatar"
             alt="avatar"
             class="profile border-2 rounded-full"
           />
         </div>
       </div>
       <div class="px-4 pb-2 border-b-2">
-        <h2 class="font-bold">{{ getCurrentUser.name }}</h2>
-        <p>@{{ getCurrentUser.handle }}</p>
+        <h2 class="font-bold">{{ profileData.handle }}</h2>
+        <p>@{{ profileData.handle }}</p>
         <p class="text-sm text-gray-500">
-          {{ getCurrentUser.bio }}
+          {{ profileData.bio }}
         </p>
         <div class="mt-2 flex gap-4">
-          <p>
-            <span class="mr-1 font-bold">
-              {{
-                getCurrentUser.handle === getUser.handle
-                  ? getUser.following.length
-                  : "-"
-              }} </span
-            ><span>Following</span>
-          </p>
-          <p>
-            <span class="mr-1 font-bold">
-              {{
-                getCurrentUser.handle === getUser.handle
-                  ? "-"
-                  : getCurrentUser.followers
-              }} </span
-            ><span>Followers</span>
-          </p>
+          <p><span class="mr-1 font-bold"> - </span><span>Following</span></p>
+          <p><span class="mr-1 font-bold"> - </span><span>Followers</span></p>
         </div>
       </div>
-      <div v-for="tweet in filteredTweets" :key="tweet.id">
+      <div v-for="tweet in tweets" :key="tweet.id">
         <Tweets :tweet="tweet" />
       </div>
     </div>
@@ -49,34 +33,41 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import Tweets from "../components/Tweets.vue";
 export default {
   name: "Profile",
   components: { Tweets },
-
-  computed: {
-    ...mapGetters(["getUsers", "getUser", "getTweets"]),
-    getCurrentUser() {
-      return this.getUsers.find(
-        (user) => user.handle === this.$route.params.id
-      );
-    },
-    filteredTweets() {
-      return this.getTweets
-        .filter((tweet) => tweet.handle === this.$route.params.id)
-        .map((x) => {
-          const { name, avatar } = this.getUsers.find(
-            (user) => user.id === x.user
-          );
-          return {
-            ...x,
-            name,
-            avatar,
-          };
-        })
-        .reverse();
-    },
+  data() {
+    return {
+      profileData: null,
+      tweets: [],
+    };
+  },
+  async created() {
+    const getUserData = await fetch(
+      "http://localhost:3000/user/" + this.$route.params.handle,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const getUser = await getUserData.json();
+    const getAllTweetsByUser = await fetch(
+      "http://localhost:3000/tweet/all/" + getUser.id,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const allTweetsByUser = await getAllTweetsByUser.json();
+    console.log(getUser, allTweetsByUser);
+    this.profileData = getUser;
+    this.tweets = allTweetsByUser;
   },
 };
 </script>

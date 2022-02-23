@@ -10,37 +10,37 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/login.vue")
+    component: () => import("../views/login.vue"),
   },
   {
     path: "/register",
     name: "Register",
-    component: () => import("../views/register.vue")
+    component: () => import("../views/register.vue"),
   },
   {
-    path: "/:id?",
+    path: "/:handle?",
     name: "Profile",
     component: () => import("../views/profile.vue"),
     meta: {
-      requiresAuth: true
-    }
-  }
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
   const user = localStorage.getItem("user");
 
   if (requiresAuth && !user) {

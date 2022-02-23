@@ -5,17 +5,17 @@
       <div>
         <label
           class="inline-flex items-center text-sm font-bold mb-2"
-          for="name"
+          for="handle"
         >
           <i class="bx bx-envelope mr-1"></i>
-          Name
+          Handle
         </label>
         <input
           class="t-input block w-full"
           type="text"
-          id="name"
-          placeholder="Name"
-          v-model="name"
+          id="handle"
+          placeholder="Handle"
+          v-model="handle"
         />
       </div>
       <div class="my-4">
@@ -78,7 +78,7 @@ export default {
   name: "Register",
   data() {
     return {
-      name: "",
+      handle: "",
       password: "",
       confirmPassword: "",
       message: "",
@@ -94,9 +94,19 @@ export default {
   },
   methods: {
     handleRegister() {
-      if (this.name.length > 0 && this.samePassword) {
-        this.$store.commit("setUser", this.name);
-        this.$router.push("/");
+      if (this.handle.length > 0 && this.samePassword) {
+        this.$store
+          .dispatch("registerUser", {
+            handle: this.handle,
+            password: this.password,
+            confirmPassword: this.confirmPassword,
+          })
+          .then(() => {
+            this.$router.push({ name: "Home" });
+          })
+          .catch((err) => {
+            this.message = err;
+          });
       } else {
         this.message = "Fill all fields";
       }

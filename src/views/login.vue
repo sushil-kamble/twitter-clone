@@ -8,14 +8,14 @@
           for="name"
         >
           <i class="bx bx-envelope mr-1"></i>
-          Name
+          Handle
         </label>
         <input
           class="t-input block w-full"
           type="text"
           id="name"
-          placeholder="Name"
-          v-model="name"
+          placeholder="Handle"
+          v-model="handle"
         />
       </div>
       <div class="my-4">
@@ -56,19 +56,24 @@ export default {
   name: "Login",
   data() {
     return {
-      name: "",
+      handle: "",
       password: "",
       message: "",
     };
   },
   methods: {
     handleLogin() {
-      if (this.name.length > 0 && this.password === "admin") {
-        this.$store.commit("setUser", this.name);
-        this.$router.push("/");
-      } else {
-        this.message = "Invalid credentials";
-      }
+      this.$store
+        .dispatch("loginUser", {
+          handle: this.handle,
+          password: this.password,
+        })
+        .then(() => {
+          this.$router.push({ name: "Home" });
+        })
+        .catch((err) => {
+          this.message = err;
+        });
     },
   },
 };

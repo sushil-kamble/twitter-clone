@@ -6,11 +6,18 @@ const router = express.Router();
 
 // Login User
 router.post("/login", userController.login);
+
 // Register User
 router.post("/register", userController.register);
 
-// Get user details by id
-router.get("/:id", userController.getUserProfileDataById);
+// Get Current User Meta Data
+router.get("/meta", auth, userController.getCurrenttUserMetaData);
+
+// Get all users with follow details
+router.get("/", auth, userController.getAllUser);
+
+// Get user details by handle
+router.get("/:handle", userController.getUserProfileDataByHandle);
 
 // Get tweets by Id
 router.get("/:id/tweets", auth, userController.getTweetsByUserId);

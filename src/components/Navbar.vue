@@ -30,7 +30,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getUser"]),
+    ...mapGetters(["currentUser"]),
   },
   methods: {
     handleSearch() {

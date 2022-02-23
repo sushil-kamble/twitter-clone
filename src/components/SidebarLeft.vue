@@ -1,15 +1,11 @@
 <template>
   <div class="border-r-2">
-    <div
-      class="flex flex-col fixed"
-      v-if="getUser.isLoggedIn"
-      style="height: 88vh"
-    >
+    <div class="flex flex-col fixed" v-if="currentUser" style="height: 88vh">
       <ul class="flex flex-col gap-3 flex-1">
         <router-link
           :to="
             link.to === '/profile'
-              ? { name: 'Profile', params: { id: getUser.handle } }
+              ? { name: 'Profile', params: { handle: currentUser.handle } }
               : link.to
           "
           class="flex items-center px-4 py-2 cursor-pointer rounded-r-2xl hover:text-primary"
@@ -32,17 +28,20 @@
       <div
         class="py-2 cursor-pointer flex hover:bg-gray-100 px-4 rounded-r-2xl"
         @click="
-          $router.push({ name: 'Profile', params: { id: getUser.handle } })
+          $router.push({
+            name: 'Profile',
+            params: { handle: currentUser.handle },
+          })
         "
       >
         <img
           class="rounded-full h-12 w-12 mr-4"
-          :src="getUser.avatar"
+          :src="currentUser.avatar"
           alt="avatar"
         />
         <div class="hidden md:block">
-          <p>{{ getUser.name }}</p>
-          <p>@{{ getUser.handle }}</p>
+          <p>{{ currentUser.handle }}</p>
+          <p>@{{ currentUser.handle }}</p>
         </div>
       </div>
     </div>
@@ -115,11 +114,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getUser"]),
+    ...mapGetters(["currentUser"]),
   },
   methods: {
     handleLogout() {
-      this.$store.commit("resetUser");
+      this.$store.commit("RESET_USER");
       this.$router.push({ name: "Login" });
     },
   },

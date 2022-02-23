@@ -1,9 +1,11 @@
 <template>
   <div class="flex border-b-2 p-4">
     <div class="mr-4 flex-none">
-      <router-link :to="{ name: 'Profile', params: { id: tweet.handle } }">
+      <router-link
+        :to="{ name: 'Profile', params: { handle: tweet.user.handle } }"
+      >
         <img
-          :src="tweet.avatar"
+          :src="tweet.user.avatar"
           class="h-12 w-12 rounded-full flex-none border-2"
         />
       </router-link>
@@ -11,11 +13,16 @@
     <div class="flex-1">
       <span
         class="font-bold mr-2 cursor-pointer"
-        @click="$router.push({ name: 'Profile', params: { id: tweet.handle } })"
-        >{{ tweet.name }}
+        @click="
+          $router.push({
+            name: 'Profile',
+            params: { handle: tweet.user.handle },
+          })
+        "
+        >{{ tweet.user.handle }}
       </span>
-      <span class="mr-2">@{{ tweet.handle }}</span> ·
-      <span>{{ tweet.timestamp }}</span>
+      <span class="mr-2">@{{ tweet.user.handle }}</span> ·
+      <span>{{ formatDate(tweet.created_at) }}</span>
       <p>
         {{ tweet.content }}
       </p>
@@ -28,10 +35,7 @@
           <i class="bx bx-trending-up text-2xl"></i>
           <span class="text-secondary text-base"> - </span>
         </button>
-        <button
-          :class="`flex items-center gap-4 ${tweet.liked && 'text-red-600'}`"
-          @click="toogleLike"
-        >
+        <button :class="`flex items-center gap-4 `" @click="toogleLike">
           <i class="bx bx-heart text-2xl"></i>
           <span class="text-secondary text-base">{{ tweet.likes }}</span>
         </button>
@@ -44,6 +48,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   props: {
     tweet: {
@@ -52,8 +57,11 @@ export default {
     },
   },
   methods: {
+    formatDate(date) {
+      return moment(date).format("lll");
+    },
     toogleLike() {
-      this.$store.commit("toogleLike", this.tweet.id);
+      //
     },
   },
 };

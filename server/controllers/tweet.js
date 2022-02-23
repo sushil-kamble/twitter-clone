@@ -15,6 +15,19 @@ const postTweet = async (req, res) => {
   }
 };
 
+const getAllTweetsById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const tweets = await Tweet.query()
+      .withGraphFetched("user")
+      .where({ userId: id });
+    return res.status(200).json(tweets);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+};
+
 const getAllTweets = async (req, res) => {
   try {
     const tweets = await Tweet.query();
@@ -38,6 +51,7 @@ const getTweetById = async (req, res) => {
 
 module.exports = {
   postTweet,
+  getAllTweetsById,
   getAllTweets,
   getTweetById,
 };

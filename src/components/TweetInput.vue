@@ -1,8 +1,8 @@
 <template>
   <div class="border-b-2 pb-4 px-1">
-    <div class="flex">
+    <div class="flex" v-if="currentUser">
       <router-link :to="{ name: 'Profile' }">
-        <img :src="getUser.avatar" class="h-12 w-12 rounded-full mr-2"
+        <img :src="currentUser.avatar" class="h-12 w-12 rounded-full mr-2"
       /></router-link>
 
       <textarea
@@ -29,12 +29,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getUser"]),
+    ...mapGetters(["currentUser"]),
   },
   methods: {
     addTweet() {
-      this.$store.commit("addTweet", this.content);
-      this.content = "";
+      this.$store.dispatch("postTweet", {
+        content: this.content,
+      });
     },
   },
 };
