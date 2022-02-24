@@ -9,6 +9,7 @@ export default new Vuex.Store({
     user: null,
     meta: null,
     tweets: [],
+    users: [],
   },
   getters: {
     isLoggedIn: (state) => !!state.user,
@@ -18,6 +19,12 @@ export default new Vuex.Store({
       }
       return null;
     },
+    allUsers: (state) => {
+      return state.users;
+    },
+    allTweets: (state) => {
+      return state.tweets.reverse();
+    },
   },
   mutations: {
     SET_USER(state, user) {
@@ -26,12 +33,32 @@ export default new Vuex.Store({
     SET_META(state, meta) {
       state.meta = meta;
     },
+    ADD_TWEETS(state, tweets) {
+      state.tweets = tweets;
+    },
     ADD_TWEET(state, tweet) {
-      state.tweets.push(tweet);
+      state.tweets = [...state.tweets, tweet];
     },
     RESET_USER(state) {
       state.user = null;
       state.meta = null;
+      state.tweets = [];
+      state.users = [];
+    },
+    SET_USERS(state, users) {
+      state.users = users;
+    },
+
+    FOLLOW_USER(state, id) {
+      const targetUser = state.users.find((user) => user.id === id);
+      targetUser.following.push(state.user.uid);
+      targetUser.isFollowing = true;
+    },
+    UNFOLLOW_USER(state, id) {
+      const targetUser = state.users.find((user) => user.id === id);
+      const index = targetUser.following.indexOf(state.user.uid);
+      targetUser.following.splice(index, 1);
+      targetUser.isFollowing = false;
     },
   },
   actions: {
@@ -104,6 +131,40 @@ export default new Vuex.Store({
         return Promise.reject(err.message);
       }
     },
+    async getAllUsers({ commit, state }) {
+      const users = await fetch("http://localhost:3000/user/", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      });
+      try {
+        const data = await users.json();
+        commit("SET_USERS", data);
+      } catch (err) {
+        console.log(err.message);
+        return Promise.reject(err.message);
+      }
+    },
+
+    // TWEETS SECTION
+
+    async loadTweets({ commit, state }) {
+      const tweets = await fetch("http://localhost:3000/tweet/", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      });
+      try {
+        const data = await tweets.json();
+        commit("ADD_TWEETS", data);
+      } catch (err) {
+        console.log(err.message);
+        return Promise.reject(err.message);
+      }
+    },
+
     async postTweet({ commit, state }, payload) {
       const tweet = await fetch("http://localhost:3000/tweet", {
         method: "POST",
@@ -120,6 +181,31 @@ export default new Vuex.Store({
         console.log(err.message);
         return Promise.reject(err.message);
       }
+    },
+
+    // FOLLOW SECTION
+    async toggleFollow({ commit, dispatch, state }, payload) {
+      const targetUser = state.users.find((user) => user.id === payload);
+      if (!targetUser.isFollowing) {
+        await fetch(`http://localhost:3000/follow/${payload}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${state.user.token}`,
+          },
+        });
+        commit("FOLLOW_USER", payload);
+      } else {
+        await fetch(`http://localhost:3000/follow/${payload}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${state.user.token}`,
+          },
+        });
+        commit("UNFOLLOW_USER", payload);
+      }
+      dispatch("loadTweets");
     },
   },
 });

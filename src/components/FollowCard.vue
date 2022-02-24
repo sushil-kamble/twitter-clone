@@ -7,14 +7,14 @@
       @click="
         $router.push({
           name: 'Profile',
-          params: { id: handle },
+          params: { handle: handle },
         })
       "
     />
     <div class="w-full">
       <div class="flex justify-between items-center">
         <div class="mr-4">
-          <p class="">{{ name }}</p>
+          <p class="">{{ "Name" }}</p>
           <p class="text-sm">@{{ handle }}</p>
         </div>
         <button
@@ -24,9 +24,6 @@
           {{ following ? "Following" : "Follow" }}
         </button>
       </div>
-      <p class="text-sm" v-if="bio">
-        {{ bio }}
-      </p>
     </div>
   </div>
 </template>
@@ -38,10 +35,6 @@ export default {
       type: Number,
       required: true,
     },
-    name: {
-      type: String,
-      required: true,
-    },
     handle: {
       type: String,
       required: true,
@@ -50,9 +43,7 @@ export default {
       type: String,
       required: true,
     },
-    bio: {
-      type: String || null,
-    },
+
     following: {
       type: Boolean,
       default: false,
@@ -60,7 +51,7 @@ export default {
   },
   methods: {
     handleToggle() {
-      this.$emit("toggle", this.id);
+      this.$store.dispatch("toggleFollow", this.id);
     },
   },
 };

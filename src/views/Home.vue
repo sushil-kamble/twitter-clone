@@ -1,15 +1,24 @@
 <template>
   <div>
     <TweetInput />
-    <!-- <div v-for="tweet in filterTweets" :key="tweet.id">
+    <div v-for="tweet in allTweets" :key="tweet.id">
       <Tweets :tweet="tweet" />
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import TweetInput from "../components/TweetInput.vue";
+import Tweets from "../components/Tweets.vue";
+
 export default {
-  components: { TweetInput },
+  components: { TweetInput, Tweets },
+  created() {
+    this.$store.dispatch("loadTweets");
+  },
+  computed: {
+    ...mapGetters(["currentUser", "allTweets"]),
+  },
 };
 </script>

@@ -36,7 +36,7 @@ export default {
     handleSearch() {
       this.$router.push({
         name: "Profile",
-        params: { id: this.search.toLowerCase() },
+        params: { handle: this.search.toLowerCase() },
       });
       this.search = "";
     },

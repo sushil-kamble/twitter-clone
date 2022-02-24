@@ -4,6 +4,7 @@ class User extends Model {
   static get tableName() {
     return "user";
   }
+
   static get relationMappings() {
     const Tweet = require("./tweet");
     const Follow = require("./follow");
@@ -12,6 +13,7 @@ class User extends Model {
       following: {
         relation: Model.HasManyRelation,
         modelClass: Follow,
+        filter: (query) => query.select("to"),
         join: {
           from: "user.id",
           to: "follow.from",

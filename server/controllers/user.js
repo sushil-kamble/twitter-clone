@@ -80,28 +80,26 @@ const getCurrenttUserMetaData = async (req, res) => {
 };
 
 const getAllUser = async (req, res) => {
-  const currentUser = res.locals.user;
-  const data = await User.query()
-    .select("id", "handle", "avatar", "bio")
-    .withGraphFetched("followers")
-    .whereNot("id", currentUser.uid);
-  return res.status(200).json(data);
-  // try {
-  //   let users = await User.query().select("id", "handle", "avatar");
-  //   const userFollowing = await Follow.query()
-  //     .where("from", currentUser.uid)
-  //     .select("to");
-  //   const followArray = userFollowing.map((follow) => follow.to);
-  //   users.map((user) => {
-  //     return followArray.includes(user.id)
-  //       ? (user.isFollowing = true)
-  //       : (user.isFollowing = false);
-  //   });
-  //   return res.status(200).json(users);
-  // } catch (err) {
-  //   console.log(err);
-  //   return res.status(500).json({ message: err?.name });
-  // }
+  try {
+    const currentUser = res.locals.user;
+    const data = await User.query()
+      .select("id", "handle", "avatar")
+      .withGraphFetched("[followers, following]");
+    const usersdata = data.map((user) => {
+      user.followers = user.followers.map((x) => x.from);
+      user.following = user.following.map((x) => x.to);
+      if (user.followers.includes(currentUser.uid)) {
+        user.isFollowing = true;
+      } else {
+        user.isFollowing = false;
+      }
+      return user;
+    });
+    return res.status(200).json(usersdata);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err?.name });
+  }
 };
 
 const getUserProfileDataByHandle = async (req, res) => {

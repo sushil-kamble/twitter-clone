@@ -4,7 +4,7 @@
     <div class="flex min-page main-set">
       <SidebarLeft class="w-1/6 md:w-1/4" />
       <div class="flex-1">
-        <router-view class="min-page" />
+        <router-view class="min-page" :key="$route.fullPath" />
       </div>
       <SidebarRight class="w-1/3 hidden lg:block" />
     </div>

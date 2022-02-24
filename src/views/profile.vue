@@ -1,25 +1,33 @@
 <template>
   <div>
-    <div v-if="profileData">
+    <div v-if="profileUser">
       <div class="mb-24">
         <div class="cover">
           <img src="../assets/banner.png" alt="banner" id="banner-img" />
           <img
-            :src="profileData.avatar"
+            :src="profileUser.avatar"
             alt="avatar"
             class="profile border-2 rounded-full"
           />
         </div>
       </div>
       <div class="px-4 pb-2 border-b-2">
-        <h2 class="font-bold">{{ profileData.handle }}</h2>
-        <p>@{{ profileData.handle }}</p>
+        <h2 class="font-bold">{{ profileUser.handle }}</h2>
+        <p>@{{ profileUser.handle }}</p>
         <p class="text-sm text-gray-500">
-          {{ profileData.bio }}
+          {{ profileUser.bio }}
         </p>
         <div class="mt-2 flex gap-4">
-          <p><span class="mr-1 font-bold"> - </span><span>Following</span></p>
-          <p><span class="mr-1 font-bold"> - </span><span>Followers</span></p>
+          <p>
+            <span class="mr-1 font-bold">
+              {{ profileUser.following.length }} </span
+            ><span>Following</span>
+          </p>
+          <p>
+            <span class="mr-1 font-bold">
+              {{ profileUser.followers.length }} </span
+            ><span>Followers</span>
+          </p>
         </div>
       </div>
       <div v-for="tweet in tweets" :key="tweet.id">
@@ -33,7 +41,7 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import Tweets from "../components/Tweets.vue";
 export default {
   name: "Profile",
@@ -44,30 +52,31 @@ export default {
       tweets: [],
     };
   },
-  async created() {
-    const getUserData = await fetch(
-      "http://localhost:3000/user/" + this.$route.params.handle,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const getUser = await getUserData.json();
-    const getAllTweetsByUser = await fetch(
-      "http://localhost:3000/tweet/all/" + getUser.id,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const allTweetsByUser = await getAllTweetsByUser.json();
-    console.log(getUser, allTweetsByUser);
-    this.profileData = getUser;
-    this.tweets = allTweetsByUser;
+  mounted() {
+    this.loadData();
+  },
+  computed: {
+    ...mapGetters(["currentUser", "allUsers"]),
+    profileUser() {
+      return this.allUsers.find(
+        (user) => user.handle === this.$route.params.handle
+      );
+    },
+  },
+  methods: {
+    async loadData() {
+      const getAllTweetsByUser = await fetch(
+        "http://localhost:3000/tweet/all/" + this.profileUser.id,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const allTweetsByUser = await getAllTweetsByUser.json();
+      this.tweets = allTweetsByUser;
+    },
   },
 };
 </script>

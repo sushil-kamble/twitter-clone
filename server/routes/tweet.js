@@ -7,7 +7,7 @@ const router = express.Router();
 // Post Tweet
 router.post("/", auth, tweetController.postTweet);
 // Get all tweets
-router.get("/", tweetController.getAllTweets);
+router.get("/", auth, tweetController.getAllTweets);
 // Get all tweets by user id
 router.get("/all/:id", tweetController.getAllTweetsById);
 
