@@ -18,4 +18,7 @@ router.delete("/:id");
 // Update Tweet (inc / dec likes etc)
 router.put("/:id");
 
+// Toggle Like on tweet
+router.post("/like/:id", auth, tweetController.toggleLikeTweet);
+
 module.exports = router;

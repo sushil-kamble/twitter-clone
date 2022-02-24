@@ -39,6 +39,16 @@ export default new Vuex.Store({
     ADD_TWEET(state, tweet) {
       state.tweets = [...state.tweets, tweet];
     },
+    TOGGLE_TWEET_LIKE(state, id) {
+      const tweet = state.tweets.find((tweet) => tweet.id === id);
+      tweet.isLiked = !tweet.isLiked;
+      if (tweet.isLiked) {
+        tweet.tweetLikes.push(state.user.uid);
+      } else {
+        const index = tweet.tweetLikes.indexOf(state.user.uid);
+        tweet.tweetLikes.splice(index, 1);
+      }
+    },
     RESET_USER(state) {
       state.user = null;
       state.meta = null;
@@ -177,6 +187,21 @@ export default new Vuex.Store({
       try {
         const data = await tweet.json();
         commit("ADD_TWEET", data);
+      } catch (err) {
+        console.log(err.message);
+        return Promise.reject(err.message);
+      }
+    },
+
+    async toggleLike({ commit, state }, payload) {
+      try {
+        await fetch(`http://localhost:3000/tweet/like/${payload}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${state.user.token}`,
+          },
+        });
+        commit("TOGGLE_TWEET_LIKE", payload);
       } catch (err) {
         console.log(err.message);
         return Promise.reject(err.message);

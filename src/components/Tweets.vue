@@ -35,9 +35,13 @@
           <i class="bx bx-trending-up text-2xl"></i>
           <span class="text-secondary text-base"> - </span>
         </button>
-        <button :class="`flex items-center gap-4 `" @click="toogleLike">
-          <i class="bx bx-heart text-2xl"></i>
-          <span class="text-secondary text-base">{{ tweet.likes }}</span>
+        <button class="flex items-center gap-4" @click="toogleLike">
+          <i
+            :class="`bx bx-heart text-2xl  ${tweet.isLiked && 'text-red-600'}`"
+          ></i>
+          <span class="text-secondary text-base">{{
+            tweet.tweetLikes.length
+          }}</span>
         </button>
         <button class="flex items-center gap-4">
           <i class="bx bx-upload text-2xl mr-6"></i>
@@ -61,7 +65,7 @@ export default {
       return moment(date).format("lll");
     },
     toogleLike() {
-      //
+      this.$store.dispatch("toggleLike", this.tweet.id);
     },
   },
 };

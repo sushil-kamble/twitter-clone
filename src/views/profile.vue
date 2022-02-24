@@ -30,8 +30,12 @@
           </p>
         </div>
       </div>
-      <div v-for="tweet in tweets" :key="tweet.id">
+
+      <div v-for="tweet in filteredTweets" :key="tweet.id">
         <Tweets :tweet="tweet" />
+      </div>
+      <div v-if="filteredTweets.length === 0" class="p-3">
+        <h2>Follow the user to see their Tweets</h2>
       </div>
     </div>
     <div v-else class="px-4">
@@ -53,29 +57,21 @@ export default {
     };
   },
   mounted() {
-    this.loadData();
+    if (this.allTweets.length === 0) {
+      this.$store.dispatch("loadTweets");
+    }
   },
   computed: {
-    ...mapGetters(["currentUser", "allUsers"]),
+    ...mapGetters(["currentUser", "allUsers", "allTweets"]),
     profileUser() {
       return this.allUsers.find(
         (user) => user.handle === this.$route.params.handle
       );
     },
-  },
-  methods: {
-    async loadData() {
-      const getAllTweetsByUser = await fetch(
-        "http://localhost:3000/tweet/all/" + this.profileUser.id,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+    filteredTweets() {
+      return this.allTweets.filter(
+        (tweet) => tweet.user.handle === this.$route.params.handle
       );
-      const allTweetsByUser = await getAllTweetsByUser.json();
-      this.tweets = allTweetsByUser;
     },
   },
 };
