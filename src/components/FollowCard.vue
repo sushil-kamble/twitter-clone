@@ -14,7 +14,7 @@
     <div class="w-full">
       <div class="flex justify-between items-center">
         <div class="mr-4">
-          <p class="">{{ "Name" }}</p>
+          <p class="">{{ name }}</p>
           <p class="text-sm">@{{ handle }}</p>
         </div>
         <button
@@ -31,6 +31,7 @@
 <script>
 export default {
   props: {
+    name,
     id: {
       type: Number,
       required: true,

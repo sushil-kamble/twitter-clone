@@ -54,6 +54,7 @@ export default new Vuex.Store({
       state.meta = null;
       state.tweets = [];
       state.users = [];
+      localStorage.removeItem("user");
     },
     SET_USERS(state, users) {
       state.users = users;

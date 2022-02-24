@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="px-4 pb-2 border-b-2">
-        <h2 class="font-bold">{{ profileUser.handle }}</h2>
+        <h2 class="font-bold">{{ profileUser.name }}</h2>
         <p>@{{ profileUser.handle }}</p>
         <p class="text-sm text-gray-500">
           {{ profileUser.bio }}

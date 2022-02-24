@@ -5,6 +5,38 @@
       <div>
         <label
           class="inline-flex items-center text-sm font-bold mb-2"
+          for="name"
+        >
+          <i class="bx bx-user mr-1"></i>
+          Name
+        </label>
+        <input
+          class="t-input block w-full"
+          type="text"
+          id="name"
+          placeholder="Name"
+          v-model="name"
+        />
+      </div>
+      <div class="my-4">
+        <label
+          class="inline-flex items-center text-sm font-bold mb-2"
+          for="bio"
+        >
+          <i class="bx bx-user mr-1"></i>
+          Bio
+        </label>
+        <input
+          class="t-input block w-full"
+          type="text"
+          id="bio"
+          placeholder="Bio"
+          v-model="bio"
+        />
+      </div>
+      <div class="my-4">
+        <label
+          class="inline-flex items-center text-sm font-bold mb-2"
           for="handle"
         >
           <i class="bx bx-envelope mr-1"></i>
@@ -78,6 +110,8 @@ export default {
   name: "Register",
   data() {
     return {
+      name: "",
+      bio: "",
       handle: "",
       password: "",
       confirmPassword: "",
@@ -97,6 +131,8 @@ export default {
       if (this.handle.length > 0 && this.samePassword) {
         this.$store
           .dispatch("registerUser", {
+            name: this.name,
+            bio: this.bio,
             handle: this.handle,
             password: this.password,
             confirmPassword: this.confirmPassword,

@@ -40,7 +40,7 @@
           alt="avatar"
         />
         <div class="hidden md:block">
-          <p>{{ currentUser.handle }}</p>
+          <p>{{ currentUser.name }}</p>
           <p>@{{ currentUser.handle }}</p>
         </div>
       </div>

@@ -4,6 +4,7 @@
     <div v-for="user in filterUsers" :key="user.id" class="mt-2">
       <FollowCard
         :id="user.id"
+        :name="user.name"
         :avatar="user.avatar"
         :handle="user.handle"
         :following="user.isFollowing"
