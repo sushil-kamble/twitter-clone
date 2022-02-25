@@ -21,8 +21,8 @@ new Vue({
     }
     this.$store.commit("SET_USER", user);
     if (user) {
+      // Get user details by token
       this.$store.dispatch("metaDataOfCurrentUser", user.token);
-      // Loading state
     }
   },
 }).$mount("#app");

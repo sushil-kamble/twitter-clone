@@ -78,35 +78,8 @@ const toggleLikeTweet = async (req, res) => {
   }
 };
 
-// Work Pending
-const getAllTweetsById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const tweets = await Tweet.query()
-      .withGraphFetched("user")
-      .where({ userId: id });
-    return res.status(200).json(tweets);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json(err);
-  }
-};
-
-const getTweetById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const tweet = await Tweet.query().findById(id);
-    return res.status(200).json(tweet);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json(err);
-  }
-};
-
 module.exports = {
   postTweet,
   toggleLikeTweet,
-  getAllTweetsById,
   getAllTweets,
-  getTweetById,
 };

@@ -16,13 +16,4 @@ router.get("/meta", auth, userController.getCurrenttUserMetaData);
 // Get all users with follow details
 router.get("/", auth, userController.getAllUser);
 
-// Get user details by handle
-router.get("/:handle", userController.getUserProfileDataByHandle);
-
-// Get tweets by Id
-router.get("/:id/tweets", auth, userController.getTweetsByUserId);
-
-// Update user details by id
-router.put("/:id");
-
 module.exports = router;

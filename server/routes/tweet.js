@@ -4,21 +4,13 @@ const auth = require("../middlewares/auth");
 
 const router = express.Router();
 
-// Post Tweet
+// Post Tweet - Requires Authentication
 router.post("/", auth, tweetController.postTweet);
-// Get all tweets
+
+// Get all tweets where user is following - Requires Authentication
 router.get("/", auth, tweetController.getAllTweets);
-// Get all tweets by user id
-router.get("/all/:id", tweetController.getAllTweetsById);
 
-// Get Tweet by Id
-router.get("/:id", tweetController.getTweetById);
-// Delete Tweet by Id
-router.delete("/:id");
-// Update Tweet (inc / dec likes etc)
-router.put("/:id");
-
-// Toggle Like on tweet
+// Toggle Like on tweet - Requires Authentication
 router.post("/like/:id", auth, tweetController.toggleLikeTweet);
 
 module.exports = router;

@@ -1,8 +1,6 @@
 const User = require("../db/models/user");
-// const Follow = require("../db/models/follow");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Tweet = require("../db/models/tweet");
 
 const login = async (req, res) => {
   try {
@@ -104,41 +102,9 @@ const getAllUser = async (req, res) => {
   }
 };
 
-const getUserProfileDataByHandle = async (req, res) => {
-  try {
-    const { handle } = req.params;
-    const user = await User.query()
-      .findOne({ handle })
-      .select("id", "handle", "avatar", "bio");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    return res.status(200).json(user);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: err?.name });
-  }
-};
-
-const getTweetsByUserId = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const tweets = await Tweet.query().where("userId", id);
-    if (tweets.length === 0) {
-      return res.status(404).json({ message: "Tweets not found" });
-    }
-    return res.status(200).json(tweets);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: err?.name });
-  }
-};
-
 module.exports = {
   login,
   register,
   getCurrenttUserMetaData,
   getAllUser,
-  getUserProfileDataByHandle,
-  getTweetsByUserId,
 };

@@ -19,11 +19,11 @@
             params: { handle: tweet.user.handle },
           })
         "
-        >{{ tweet.user.handle }}
+        >{{ tweet.user.name }}
       </span>
       <span class="mr-2">@{{ tweet.user.handle }}</span> ·
       <span>{{ formatDate(tweet.created_at) }}</span>
-      <p>
+      <p class="whitespace-pre">
         {{ tweet.content }}
       </p>
       <div class="mt-2 flex justify-between">

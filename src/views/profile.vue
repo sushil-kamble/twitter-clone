@@ -34,7 +34,10 @@
       <div v-for="tweet in filteredTweets" :key="tweet.id">
         <Tweets :tweet="tweet" />
       </div>
-      <div v-if="filteredTweets.length === 0" class="p-3">
+      <div
+        v-if="filteredTweets.length === 0 && currentUser.id !== profileUser.id"
+        class="p-3"
+      >
         <h2>Follow the user to see their Tweets</h2>
       </div>
     </div>
